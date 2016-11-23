@@ -11,6 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by amador on 23/11/16.
  */
@@ -18,10 +20,13 @@ import android.widget.TextView;
 public class ListDeportesAdapter extends ArrayAdapter<Deportes> {
 
     private Context context;
+    private ArrayList<Deportes> data;
 
     public ListDeportesAdapter(Context context) {
-        super(context, R.layout.item_deportes_list, Repositorio.getInstance(context));
+        super(context, R.layout.item_deportes_list, new ArrayList<Deportes>(Repositorio.getInstance(context)));
         this.context = context;
+        this.data = new ArrayList<Deportes>(Repositorio.getInstance(context));
+
     }
 
     /**
@@ -58,30 +63,38 @@ public class ListDeportesAdapter extends ArrayAdapter<Deportes> {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                    getItem(position).setSeguido(b);
+                    data.get(position).setSeguido(b);
 
 
                 }
             });
 
 
-            holder.imvDeporte.setImageResource(getItem(position).getImv());
-            holder.checkSeguido.setChecked(getItem(position).isSeguido());
-            holder.txvNombreDeporte.setText(getItem(position).getNombre());
-            view.setVisibility(getItem(position).isVisible() ? View.VISIBLE : View.GONE);
-
-            if(getItem(position).isVisible()){
-
-                view.setVisibility(View.VISIBLE);
-
-            }else{
-
-                view.setVisibility(View.GONE);
-            }
-
+            holder.imvDeporte.setImageResource(data.get(position).getImv());
+            holder.checkSeguido.setChecked(data.get(position).isSeguido());
+            holder.txvNombreDeporte.setText(data.get(position).getNombre());
 
         return view;
     }
+
+    public  void filterData(String caracter){
+
+        data.clear();
+        Repositorio instancia = Repositorio.getInstance(this.context);
+
+        for(int j = 0; j < instancia.size(); j++) {
+
+            if (instancia.get(j).getNombre().toUpperCase().startsWith(caracter.toUpperCase())) {
+
+                data.add(instancia.get(j));
+
+            }
+        }
+        clear();
+        addAll(data);
+        notifyDataSetChanged();
+    }
+
 
     class DeportesHolder{
 

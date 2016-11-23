@@ -30,6 +30,8 @@ public class ListActivity extends AppCompatActivity {
     private Preferencias p;
     private boolean[] seguidos;
     private static final String KEY = "KEY";
+    private static final String KEY_FILTER = "KEY_FILTER";
+
 
     /**
      * Carga las preferencias si existen y enlaza el boton con el evento OnClick
@@ -44,9 +46,15 @@ public class ListActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.list);
         adapter = new ListDeportesAdapter(ListActivity.this);
         listView.setDivider(null);
+
+
+        try {
+            adapter.filterData(getIntent().getStringExtra(KEY_FILTER));
+        } catch (NullPointerException e) {
+
+            adapter = new ListDeportesAdapter(ListActivity.this);
+        }
         listView.setAdapter(adapter);
-
-
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,18 +84,8 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
 
                     String aux = edt.getText().toString();
-
-                    for(int j = 0; j < adapter.getCount(); j++) {
-
-                        if (!adapter.getItem(j).getNombre().toUpperCase().startsWith(aux.toUpperCase())) {
-
-                            adapter.getItem(j).setVisible(false);
-
-                        }else{
-
-                            adapter.getItem(j).setVisible(true);
-                        }
-                    }
+                    adapter.filterData(aux);
+                    getIntent().putExtra(KEY_FILTER, aux);
 
             }
         }).create();
@@ -100,27 +98,30 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        seguidos = new boolean[adapter.getCount()];
+            seguidos = new boolean[listView.getAdapter().getCount()];
 
-        for(int i = 0; i < seguidos.length; i++){
+            for (int i = 0; i < seguidos.length; i++) {
 
-            seguidos[i] = adapter.getItem(i).isSeguido();
-        }
+                seguidos[i] = ((Deportes)listView.getAdapter().getItem(i)).isSeguido();
+            }
+
         outState.putBooleanArray(KEY, seguidos);
 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-
+      super.onRestoreInstanceState(savedInstanceState);
         seguidos = savedInstanceState.getBooleanArray(KEY);
 
         for(int i = 0; i < seguidos.length; i++){
 
-            adapter.getItem(i).setSeguido(seguidos[i]);
+            ((Deportes)listView.getAdapter().getItem(i)).setSeguido(seguidos[i]);
         }
 
-        adapter.notifyDataSetChanged();
+        ((ListDeportesAdapter)listView.getAdapter()).notifyDataSetChanged();
+
+
     }
 
     @Override
