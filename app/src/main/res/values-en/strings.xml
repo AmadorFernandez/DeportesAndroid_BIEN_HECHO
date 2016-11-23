@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sports</string>
+    <string name="aceptar">OK</string>
+    <string name="boxin">Boxing</string>
+    <string name="bseball">Baseball</string>
+    <string name="chess">Chess</string>
+    <string name="cricket">Cricket</string>
+    <string name="cycling">Cycling</string>
+    <string name="darts">Dards</string>
+    <string name="filter">Filters</string>
+    <string name="filter_message">Enter a character for the filtering</string>
+    <string name="filter_text_btn">Accept</string>
+    <string name="filter_title">System</string>
+    <string name="golf">Golf</string>
+    <string name="list_text">Select the favorites sports</string>
+    <string name="rugby">Rugby</string>
+    <string name="save">Changes has been saved</string>
+</resources>
