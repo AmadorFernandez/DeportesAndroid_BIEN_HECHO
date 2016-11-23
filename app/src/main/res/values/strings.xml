@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Deportes</string>
+    <string name="rugby">Rugby</string>
+    <string name="bseball">Beisbol</string>
+    <string name="boxin">Boxeo</string>
+    <string name="chess">Ajedrez</string>
+    <string name="cricket">Cricket</string>
+    <string name="cycling">Ciclismo</string>
+    <string name="darts">Dardos</string>
+    <string name="golf">Golf</string>
+    <string name="list_text">Selecciona los deportes que te gustan y pulsa aceptar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="save">Cambios guardados</string>
+    <string name="filter">Filtrar</string>
+    <string name="filter_title">Sistema</string>
+    <string name="filter_message">Introduzca un caracter para el filtrado</string>
+    <string name="filter_text_btn">Aceptar</string>
+</resources>
